@@ -18,93 +18,89 @@ class Item:
         return f"{self.nome}, {self.validade}, {self.qualidade}"           
 
 class ItemComum:
-    def __init__(self, item: Item):
-        self.item = item 
+    def atualizar_item_comum(self, item):
+        item.validade -= 1
 
-    def atualizar_item_comum(self):
-        self.item.validade -= 1
-
-        if self.item.validade < 0:
-            self.item.qualidade = max(0, self.item.qualidade - 2)
+        if item.validade < 0:
+            item.qualidade = max(0, item.qualidade - 2)
         else:
-            self.item.qualidade = max(0, self.item.qualidade - 1)
+            item.qualidade = max(0, item.qualidade - 1)
 
-        if self.item.qualidade > 50:
-            self.item.qualidade = 50
+        if item.qualidade > 50:
+            item.qualidade = 50
 
 class AgedBrie: 
-    def __init__(self, item: Item):
-        self.item = item
-    def agedBrie_excecoes(self):
-        self.item.validade -= 1
-        if self.item.validade > 0:
-            self.item.qualidade = max(0, self.item.qualidade + 1)
+    def agedBrie_excecoes(self, item):
+        item.validade -= 1
+        if item.validade > 0:
+            item.qualidade = max(0, item.qualidade + 1)
         else:
-            self.item.qualidade = max(0, self.item.qualidade + 2)
+            item.qualidade = max(0, item.qualidade + 2)
         
-        if self.item.qualidade > 50:
-            self.item.qualidade = 50
+        if item.qualidade > 50:
+            item.qualidade = 50
 
 class Sulfuras:
-    def __init__(self, item: Item):
-        self.item = item  
-
-    def sulfuras_excecoes(self):
-        self.item.qualidade = 80
+    def sulfuras_excecoes(self, item):
+        item.qualidade = 80
 
 class BackstagePasses:
-    def __init__(self, item: Item):
-        self.item = item 
-
-    def backstagePasses_excecoes(self):
-        self.item.validade -= 1
-        if self.item.validade >= 11:
-            self.item.qualidade = max(0, self.item.qualidade + 1)
-        elif self.item.validade >= 6 and self.item.validade <= 10:
-            self.item.qualidade = max(0, self.item.qualidade + 2)
-        elif self.item.validade >= 0 and self.item.validade <= 5:
-            self.item.qualidade = max(0, self.item.qualidade + 3)
+    def backstagePasses_excecoes(self, item):
+        item.validade -= 1
+        if item.validade >= 11:
+            item.qualidade = max(0, item.qualidade + 1)
+        elif item.validade >= 6 and item.validade <= 10:
+            item.qualidade = max(0, item.qualidade + 2)
+        elif item.validade >= 0 and item.validade <= 5:
+            item.qualidade = max(0, item.qualidade + 3)
         else:
-            self.item.qualidade = 0
+            item.qualidade = 0
 
-        if self.item.qualidade > 50:
-            self.item.qualidade = 50
+        if item.qualidade > 50:
+            item.qualidade = 50
 
 class Conjurado:  
-    def __init__(self, item: Item):
-        self.item = item
-
-    def conjurado_excesoes(self):
-        self.item.validade -= 1
-        if self.item.validade > 0:
-            self.item.qualidade = max(0, self.item.qualidade - 2)
+    def conjurado_excesoes(self, item):
+        item.validade -= 1
+        if item.validade > 0:
+            item.qualidade = max(0, item.qualidade - 2)
         else:
-            self.item.qualidade = max(0, self.item.qualidade - 4)
+            item.qualidade = max(0, item.qualidade - 4)
         
-        if self.item.qualidade > 50:
-            self.item.qualidade = 50
+        if item.qualidade > 50:
+            item.qualidade = 50
+
+class EscolhaDeItens:
+    def escolhe_item(self, item):
+        if item.nome == "Aged Brie":
+            return AgedBrie(item)
+            
+        elif item.nome == "Sulfuras":
+            return Sulfuras(item)
+            
+        elif item.nome == "Backstage passes":
+            return BackstagePasses(item)
+            
+        elif item.nome == "Conjurado":
+            return Conjurado(item)
+            
+        else:
+            return ItemComum(item)
+            
 
 class GildedRose:
-    def _init_(self, itens: list[Item]):
-       self.itens = itens 
+    def __init__(self, itens: list[Item]):
+        self.itens = itens
 
-    def escolhe_item(self):
+    def atualiza_itens(self):
         for item in self.itens:
-            if self.item.nome == "Aged Brie":
-                atualizador = AgedBrie(item)
-                atualizador.agedBrie_excecoes()
-            elif self.item.nome == "Sulfuras":
-                atualizador = Sulfuras(item)
-                atualizador.sulfuras_excecoes()
-            elif self.item.nome == "Backstage passes":
-                atualizador = BackstagePasses(item)
-                atualizador.backstagePasses_excecoes()
-            elif self.item.nome == "Conjurado":
-                atualizador = Conjurado(item)
-                atualizador.conjurado_excesoes()
-            else:
-                atualizador = ItemComum(item)
-                atualizador.atualizar_item_comum()
+            escolhas = EscolhaDeItens(item)
+            escolhas.escolhe_item()
+            
+
+# Code Smells
+# Magic Number: Número "solto" no código sem explicação, por exemplo "<50", ">0", "<6", "+1"
+# Long Parameter List: Função com muitos parâmetros
 
 if __name__ == "__main__":
     itens = [
@@ -122,7 +118,7 @@ if __name__ == "__main__":
     logger.info("Dia 0:")
     for item in rose.itens:
         logger.info(f"{item}")
-    rose.escolhe_item()
+    rose.atualiza_itens()
     logger.info("\nDia 1:")
     for item in rose.itens:
         logger.info(f"{item}")
