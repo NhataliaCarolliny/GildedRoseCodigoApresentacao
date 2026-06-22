@@ -69,34 +69,32 @@ class Conjurado:
         
         if item.qualidade > 50:
             item.qualidade = 50
-
-class EscolhaDeItens:
-    def escolhe_item(self, item):
-        if item.nome == "Aged Brie":
-            return AgedBrie(item)
             
-        elif item.nome == "Sulfuras":
-            return Sulfuras(item)
-            
-        elif item.nome == "Backstage passes":
-            return BackstagePasses(item)
-            
-        elif item.nome == "Conjurado":
-            return Conjurado(item)
-            
-        else:
-            return ItemComum(item)
-            
-
 class GildedRose:
     def __init__(self, itens: list[Item]):
         self.itens = itens
+        self.itemComum = ItemComum
+        self.agedBrie = AgedBrie
+        self.sulfuras = Sulfuras
+        self.backstagePasses = BackstagePasses
+        self.conjurado = Conjurado
 
-    def atualiza_itens(self):
+    def atualiza_itens(self, item):
         for item in self.itens:
-            escolhas = EscolhaDeItens(item)
-            escolhas.escolhe_item()
+            if item.nome == "Aged Brie":
+                self.agedBrie.agedBrie_excecoes(item)
             
+            elif item.nome == "Sulfuras":
+                self.sulfuras.sulfuras_excecoes(item)
+            
+            elif item.nome == "Backstage passes":
+                self.backstagePasses.backstagePasses_excecoes(item)
+            
+            elif item.nome == "Conjurado":
+                self.conjurado.conjurado_excesoes(item)
+            
+            else:
+                self.itemComum.atualizar_item_comum(item)
 
 if __name__ == "__main__":
     itens = [
