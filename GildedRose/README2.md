@@ -11,7 +11,7 @@ from gilded_rose import GildedRose, Item
 itens = [Item("Aged Brie", validade = 2, qualidade = 0)]
 loja = GildedRose(itens)
 loja.atualiza_itens()
-print(itens[0])
+logger.info(itens[0])
 ```
 
 ## Funcionalidades
