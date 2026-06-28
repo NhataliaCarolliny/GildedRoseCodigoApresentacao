@@ -97,3 +97,61 @@
     ```python
     def test_excecao_item_conjurado():
     ```
+- **Bug em Sulfuras vencido:**
+
+Saída do código antes:
+```
+Dia 0:
+  Espada normal, 10, 20
+  Aged Brie, 2, 0
+  Espada vencida, 0, 7
+  Sulfuras, 0, 80
+  Sulfuras vencido, -1, 80
+  Backstage passes, 15, 20
+  Backstage passes, 10, 49
+  Backstage passes, 5, 49
+
+Dia 1:
+  Espada normal, 9, 19
+  Aged Brie, 1, 1
+  Espada vencida, -1, 5
+  Sulfuras, 0, 80
+  Sulfuras vencido, -2, 78
+  Backstage passes, 14, 21
+  Backstage passes, 9, 50
+  Backstage passes, 4, 50
+```
+
+Adição do nome "Sulfuras vencido" na função de *atualiza_itens*:
+```python
+class GildedRose:
+    def atualiza_itens(self):
+        for item in self.itens:
+            if item.nome == "Sulfuras" or item.nome == "Sulfuras vencido":
+                self.sulfuras.sulfuras_excecoes(item)
+```
+
+Saída do código depois:
+```
+2026-06-28 14:53:48,537 [INFO] gildedRose: Dia 0:
+2026-06-28 14:53:48,538 [INFO] gildedRose: Espada normal, 10, 20
+2026-06-28 14:53:48,538 [INFO] gildedRose: Aged Brie, 2, 0
+2026-06-28 14:53:48,539 [INFO] gildedRose: Espada vencida, 0, 7
+2026-06-28 14:53:48,540 [INFO] gildedRose: Sulfuras, 0, 80
+2026-06-28 14:53:48,540 [INFO] gildedRose: Sulfuras vencido, -1, 80
+2026-06-28 14:53:48,541 [INFO] gildedRose: Backstage passes, 15, 20
+2026-06-28 14:53:48,542 [INFO] gildedRose: Backstage passes, 10, 49
+2026-06-28 14:53:48,543 [INFO] gildedRose: Backstage passes, 5, 49
+2026-06-28 14:53:48,545 [INFO] gildedRose: Conjurado, -2, 5
+2026-06-28 14:53:48,547 [INFO] gildedRose: 
+Dia 1:
+2026-06-28 14:53:48,549 [INFO] gildedRose: Espada normal, 9, 19
+2026-06-28 14:53:48,583 [INFO] gildedRose: Aged Brie, 1, 1
+2026-06-28 14:53:48,602 [INFO] gildedRose: Espada vencida, -1, 5
+2026-06-28 14:53:48,604 [INFO] gildedRose: Sulfuras, 0, 80
+2026-06-28 14:53:48,604 [INFO] gildedRose: Sulfuras vencido, -1, 80
+2026-06-28 14:53:48,605 [INFO] gildedRose: Backstage passes, 14, 21
+2026-06-28 14:53:48,612 [INFO] gildedRose: Backstage passes, 9, 50
+2026-06-28 14:53:48,613 [INFO] gildedRose: Backstage passes, 4, 50
+2026-06-28 14:53:48,614 [INFO] gildedRose: Conjurado, -3, 1
+```
